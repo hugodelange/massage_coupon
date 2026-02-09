@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Valentijnscadeau</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 350px;
+      position: relative;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #ff4d6d;
+      color: white;
+      margin-top: 20px;
+      position: relative;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    /* Heart styling and animation */
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      pointer-events: none;
+      animation: floatUp 1.2s ease-out forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-60px) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Gratis massage coupon 💆‍♀️</h1>
+    <p>Klik op de knop om je gratis massage te claimen!</p>
+
+    <button id="couponBtn">GRATIS HUUG MASSAGE</button>
+
+    <div id="message"></div>
+  </div>
+
+  <script>
+    let count = 0;
+    const btn = document.getElementById("couponBtn");
+    const message = document.getElementById("message");
+
+    // Function to pop a heart
+    function popHeart(x, y) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      const hearts = ["❤️","💖","💕","💘","💗"];
+      heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+
+      heart.style.left = x + "px";
+      heart.style.top = y + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 1200);
+    }
+
+    // Click handler
+    btn.addEventListener("click", (e) => {
+      count++;
+
+      // Update message
+      if (count <= 3) {
+        message.textContent = `${count} massages`;
+      } else {
+        message.textContent = `oke dat is genoeg :))) ${count} massages`;
+      }
+
+      // Pop hearts at button position
+      const rect = btn.getBoundingClientRect();
+      // multiple hearts per click for effect
+      for (let i = 0; i < 3; i++) {
+        popHeart(
+          rect.left + rect.width / 2 + (Math.random() * 30 - 15),
+          rect.top + (Math.random() * 20 - 10)
+        );
+      }
+    });
+
+    // Dodge the button after 3 clicks
+    btn.addEventListener("mouseover", () => {
+      if (count >= 3) {
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 200 - 100;
+        btn.style.transform = `translate(${x}px, ${y}px)`;
+      }
+    });
+  </script>
+</body>
+</html>
