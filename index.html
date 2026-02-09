@@ -76,7 +76,7 @@
     const btn = document.getElementById("couponBtn");
     const message = document.getElementById("message");
 
-    // Function to pop a heart
+    // Function to pop hearts
     function popHeart(x, y) {
       const heart = document.createElement("div");
       heart.classList.add("heart");
@@ -93,6 +93,13 @@
       }, 1200);
     }
 
+    // Function to make the button dodge
+    function dodgeButton() {
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 200 - 100;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
     // Click handler
     btn.addEventListener("click", (e) => {
       count++;
@@ -104,9 +111,8 @@
         message.textContent = `oke dat is genoeg :))) ${count} massages`;
       }
 
-      // Pop hearts at button position
+      // Pop multiple hearts at button position
       const rect = btn.getBoundingClientRect();
-      // multiple hearts per click for effect
       for (let i = 0; i < 3; i++) {
         popHeart(
           rect.left + rect.width / 2 + (Math.random() * 30 - 15),
@@ -115,13 +121,14 @@
       }
     });
 
-    // Dodge the button after 3 clicks
+    // Make button dodge on desktop hover
     btn.addEventListener("mouseover", () => {
-      if (count >= 3) {
-        const x = Math.random() * 200 - 100;
-        const y = Math.random() * 200 - 100;
-        btn.style.transform = `translate(${x}px, ${y}px)`;
-      }
+      if (count >= 3) dodgeButton();
+    });
+
+    // Make button dodge on mobile tap
+    btn.addEventListener("touchstart", () => {
+      if (count >= 3) dodgeButton();
     });
   </script>
 </body>
